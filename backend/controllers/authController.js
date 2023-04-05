@@ -1,5 +1,5 @@
-const User = require('../models/userModel.js');
-const ErrorResponse = require('../utils/errorResponse.js');
+const User = require('../models/userModel');
+const ErrorResponse = require('../utils/errorResponse');
 
 
 exports.signup = async (req, res, next) => {
@@ -79,5 +79,4 @@ exports.userProfile = async (req, res, next) => {
         user
     })
 }
-
 
