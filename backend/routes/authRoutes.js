@@ -8,7 +8,7 @@ const { isAuthenticated } = require('../middleware/auth');
 // /api/signup
 router.post('/signup', signup);
 // /api/signin
-router.post('/signin', signin)
+router.post('/signin', signin);
 // /api/logout
 router.get('/logout', logout);
 // /api/me

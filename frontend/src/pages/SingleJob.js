@@ -3,12 +3,10 @@ import { Box, Container } from '@mui/system'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import Footer from '../component/Footer';
 import LoadingBox from '../component/LoadingBox'
 import Navbar from '../component/Navbar'
 import { jobLoadSingleAction } from '../redux/actions/jobAction'
 import Button from '@mui/material/Button'
-import { userApplyJobAction } from '../redux/actions/userAction'
 
 
 const SingleJob = () => {
