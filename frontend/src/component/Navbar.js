@@ -16,7 +16,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogoutAction } from '../redux/actions/userAction';
-
+import SignUp from '../pages/SignUp';
 const pages = ['Home', 'Log In'];
 
 
@@ -53,7 +53,7 @@ const Navbar = () => {
             navigate('/');
         }, 500)
     }
-
+   
 
 
     return (
@@ -181,14 +181,18 @@ const Navbar = () => {
                             {
                                 !userInfo ?
 
-                                    <MenuItem onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center"><Link style={{ textDecoration: "none", color: palette.primary.main }} to="/login">Log In</Link></Typography>
+                                    <MenuItem component={Link}  to="/login">
+                                        <Typography textAlign="center"><Link style={{ textDecoration: "none", color: palette.primary.main }} >Log In</Link></Typography>
                                     </MenuItem> :
 
                                     <MenuItem onClick={logOutUser}>
                                         <Typography style={{ textDecoration: "none", color: palette.primary.main }} textAlign="center">Log Out</Typography>
                                     </MenuItem>
+                                    
                             }
+                            <MenuItem component={Link}  to="/signup">
+                                        <Typography style={{ textDecoration: "none", color: palette.primary.main }} textAlign="center">signup</Typography>
+                                    </MenuItem>
 
 
                         </Menu>

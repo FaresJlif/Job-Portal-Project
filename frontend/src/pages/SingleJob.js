@@ -5,8 +5,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import LoadingBox from '../component/LoadingBox'
 import Navbar from '../component/Navbar'
+import Footer from '../component/Footer'
 import { jobLoadSingleAction } from '../redux/actions/jobAction'
 import Button from '@mui/material/Button'
+import { userApplyJobAction } from '../redux/actions/userAction'
 
 
 const SingleJob = () => {
