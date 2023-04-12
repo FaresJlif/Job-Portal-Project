@@ -70,7 +70,28 @@ exports.logout = (req, res, next) => {
         message: "logged out"
     })
 }
+//signup
 
+exports.signup = (req, res) => {
+  const user = new User({
+    email: req.body.email,
+    password: req.body.password,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName
+  });
+
+  user.save((err) => {
+    if (err) {
+      res.status(400).json({
+        message: 'Error creating user'
+      });
+    } else {
+      res.status(201).json({
+        message: 'User created successfully'
+      });
+    }
+  });
+};
 
 // user profile
 exports.userProfile = async (req, res, next) => {
