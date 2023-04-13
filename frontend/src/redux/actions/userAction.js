@@ -42,11 +42,11 @@ export const userSignInAction = (user) => async (dispatch) => {
         toast.error(error.response.data.error);
     }
 }
-//log out action
+//sign up action
 export const userSignUpAction = () => async (dispatch) => {
     dispatch({ type: USER_SIGNUP_REQUEST });
     try {
-        const { data } = await axios.get("/api/signup");
+        const { data } = await axios.post("/api/signup");
         localStorage.setItem('userInfo', JSON.stringify(data));
         dispatch({
             type: USER_SIGNUP_SUCCESS,
