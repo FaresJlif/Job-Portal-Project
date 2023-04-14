@@ -43,11 +43,10 @@ export const userSignInAction = (user) => async (dispatch) => {
     }
 }
 //sign up action
-export const userSignUpAction = () => async (dispatch) => {
+export const userSignUpAction = (user) => async (dispatch) => {
     dispatch({ type: USER_SIGNUP_REQUEST });
     try {
-        const { data } = await axios.post("/api/signup");
-        localStorage.setItem('userInfo', JSON.stringify(data));
+        const { data } = await axios.post("/api/signup",user);
         dispatch({
             type: USER_SIGNUP_SUCCESS,
             payload: data
