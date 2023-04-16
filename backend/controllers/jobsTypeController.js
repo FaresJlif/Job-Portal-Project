@@ -65,3 +65,7 @@ exports.deleteJobType = async (req, res, next) => {
 
 
 
+
+
+
+

@@ -1,42 +1,24 @@
+
 const User = require('../models/userModel');
 const ErrorResponse = require('../utils/errorResponse');
 
 
 exports.signup = async (req, res, next) => {
-    const { FirstName, LastName, email, password } = req.body;
-  
-    // Validation
-    if (!FirstName) {
-      return next(new ErrorResponse("Please provide your first name", 400));
+    const { email } = req.body;
+    const userExist = await User.findOne({ email });
+    if (userExist) {
+        return next(new ErrorResponse("E-mail already registred", 400));
     }
-    if (!LastName) {
-      return next(new ErrorResponse("Please provide your last name", 400));
-    }
-    if (!email) {
-      return next(new ErrorResponse("Please provide your email address", 400));
-    }
-    if (!password) {
-      return next(new ErrorResponse("Please provide your password", 400));
-    }
-  
-    // Check if the user already exists
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      return next(new ErrorResponse("Email already registered", 400));
-    }
-  
-    // Create the new user
     try {
-      const user = await User.create({ FirstName, LastName, email, password });
-  
-      res.status(201).json({
-        success: true,
-        user,
-      });
+        const user = await User.create(req.body);
+        res.status(201).json({
+            success: true,
+            user
+        })
     } catch (error) {
-      next(error);
+        next(error);
     }
-  };
+}
 
 
 exports.signin = async (req, res, next) => {
@@ -89,29 +71,7 @@ exports.logout = (req, res, next) => {
         message: "logged out"
     })
 }
-//signup
 
-exports.signup = (req, res) => {
-  const user = new User({
-    email: req.body.email,
-    password: req.body.password,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName
-  });
-
-  user.save((err) => {
-    if (err) {
-      console.log(err);
-      res.status(400).json({
-        message: 'Error creating user'
-      });
-    } else {
-      res.status(201).json({
-        message: 'User created successfully'
-      });
-    }
-  });
-};
 
 // user profile
 exports.userProfile = async (req, res, next) => {
@@ -123,6 +83,7 @@ exports.userProfile = async (req, res, next) => {
         user
     })
 }
+
 
 
 

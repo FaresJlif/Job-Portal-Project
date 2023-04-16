@@ -18,8 +18,7 @@ import {
     USER_SIGNIN_SUCCESS,
     USER_SIGNUP_REQUEST,
     USER_SIGNUP_SUCCESS,
-    USER_SIGNUP_FAIL,
-    
+    USER_SIGNUP_FAIL
 } from '../constants/userConstant';
 
 
@@ -60,7 +59,6 @@ export const userSignUpAction = (user) => async (dispatch) => {
         toast.error(error.response.data.error);
     }
 }
-
 
 //log out action
 export const userLogoutAction = () => async (dispatch) => {

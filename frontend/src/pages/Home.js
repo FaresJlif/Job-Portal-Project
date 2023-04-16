@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { jobLoadAction } from '../redux/actions/jobAction'
 import { Link, useParams } from 'react-router-dom'
 import CardElement from '../component/CardElement'
-import Footer from '../component/Footer';
+import Footer from '../component/Footer'
 import LoadingBox from '../component/LoadingBox'
 import SelectComponent from '../component/SelectComponent'
 import { jobTypeLoadAction } from '../redux/actions/jobTypeAction'

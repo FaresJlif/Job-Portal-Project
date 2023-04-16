@@ -10,7 +10,6 @@ import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { userSignUpAction } from "../redux/actions/userAction";
 import { useNavigate } from "react-router-dom";
-
 const validationSchema = yup.object({
   firstName: yup
     .string("Enter your First Name")

@@ -7,10 +7,10 @@ import { theme } from './theme';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ProSidebarProvider } from 'react-pro-sidebar';
+import UserDashboard from './pages/user/UserDashboard';
 import LogIn from './pages/LogIn';
-import UserDashboard from './pages/user/UserDashbaord';
 import UserRoute from './component/UserRoute';
-import AdminRoute from './component/adminRoute';
+import AdminRoute from './component/AdminRoute';
 import Layout from './pages/global/Layout';
 import UserJobsHistory from './pages/user/UserJobsHistory';
 import UserInfoDashboard from './pages/user/UserInfoDashboard';
@@ -44,8 +44,8 @@ const App = () => {
                             <Route path='/' element={<Home />} />
                             <Route path='/search/location/:location' element={<Home />} />
                             <Route path='/search/:keyword' element={<Home />} />
+                            <Route path='/signup' element={<SignUp/>} />
                             <Route path='/login' element={<LogIn />} />
-                            <Route path='/signup' element={<SignUp />} />
                             <Route path='/job/:id' element={<SingleJob />} />
                             <Route path='/admin/dashboard' element={<AdminRoute><AdminDashboardHOC /></AdminRoute>} />
                             <Route path='/admin/users' element={<AdminRoute><DashUsersHOC /></AdminRoute>} />
@@ -54,7 +54,6 @@ const App = () => {
                             <Route path='/user/jobs' element={<UserRoute>< UserJobsHistoryHOC /></UserRoute>} />
                             <Route path='/user/info' element={<UserRoute>< UserInfoDashboardHOC /></UserRoute>} />
                             <Route path='*' element={<NotFound />} />
-                            
                         </Routes>
                     </BrowserRouter>
                 </ProSidebarProvider>
