@@ -50,8 +50,20 @@ exports.updateJob = async (req, res, next) => {
     }
 }
 
+// deletes job by id
+exports.deleteJob = async (req, res, next) => {
+    try {
+        const job = await Job.deleteOne(req.params.job_id);
+        res.status(200).json({
+            success: true,
+            job
+        })
+    } catch (error) {
+        next(error);
+    }
+}
 
-//update job by id.
+//show job by id.
 exports.showJobs = async (req, res, next) => {
 
     //enable search 

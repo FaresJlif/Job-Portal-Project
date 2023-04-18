@@ -34,6 +34,7 @@ export const jobLoadSingleAction = (id) => async (dispatch) => {
             type: JOB_LOAD_SINGLE_SUCCESS,
             payload: data
         });
+        console.log(data.job)
     } catch (error) {
         dispatch({
             type: JOB_LOAD_SINGLE_FAIL,

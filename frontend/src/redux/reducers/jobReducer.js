@@ -46,7 +46,7 @@ export const loadJobSingleReducer = (state = { job: {} }, action) => {
 
                 loading: false,
                 success: action.payload.success,
-                singleJob: action.payload.job,
+                job: action.payload.job,
 
             }
         case JOB_LOAD_SINGLE_FAIL:

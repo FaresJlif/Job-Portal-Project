@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
-import { Box, Button, Paper, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { Box, Button, Card, CardActions, CardContent, FormControl, InputLabel, MenuItem, Modal, Paper, Select, TextField, Typography } from '@mui/material'
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
-import { jobLoadAction } from '../../redux/actions/jobAction';
+import { jobLoadAction, jobLoadSingleAction } from '../../redux/actions/jobAction';
+import { jobTypeLoadAction } from '../../redux/actions/jobTypeAction';
+import EditJob from '../EditJob';
 
 
 
@@ -15,18 +17,58 @@ const DashJobs = () => {
 
     useEffect(() => {
         dispatch(jobLoadAction())
+        dispatch(jobTypeLoadAction())
     }, []);
 
 
     const { jobs, loading } = useSelector(state => state.loadJobs);
     let data = [];
     data = (jobs !== undefined && jobs.length > 0) ? jobs : []
+    // console.log(data)
+
+    const { jobType } = useSelector(state => state.jobTypeAll);
+    let jobTypes = [];
+    jobTypes = (jobType !== undefined && jobType.length > 0) ? jobType : []
+    // console.log(jobTypes)
 
 
     //delete job by Id
     const deleteJobById = (e, id) => {
         console.log(id)
     }
+
+    const jobReducer = useSelector(state => state.singleJob.job);
+    const [jobState, setJobState] = useState({})
+    useEffect(() => {
+        setJobState(jobReducer)
+    }, [])
+    console.log(jobState)
+    const editJobById = (e, info) => {
+        console.log(info)
+    }
+    const getJobById = (id) => {
+        dispatch(jobLoadSingleAction(id))
+    }
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const [edit, setEdit] = React.useState(false);
+
+    const handleChange = (event) => {
+        // setJobTypeState(event.target.value);
+    };
 
     const columns = [
 
@@ -79,8 +121,36 @@ const DashJobs = () => {
             width: 200,
             renderCell: (values) => (
                 <Box sx={{ display: "flex", justifyContent: "space-between", width: "170px" }}>
-                    <Button variant="contained"><Link style={{ color: "white", textDecoration: "none" }} to={`/admin/edit/job/${values.row._id}`}>Edit</Link></ Button>
-                    < Button onClick={(e) => deleteJobById(e, values.row._id)} variant="contained" color="error">Delete</ Button>
+                    {/* <Button onClick={handleOpen} variant="contained"><Link style={{ color: "white", textDecoration: "none" }} to={`/admin/edit/job/${values.row._id}`}>Edit</Link></ Button> */}
+                    <Button onClick={() => { getJobById(values.row._id); handleOpen() }} variant="contained">Edit</Button>
+                    <Button onClick={(e) => deleteJobById(e, values.row._id)} variant="contained" color="error">Delete</ Button>
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box sx={style}>
+                            <TextField id="outlined-basic" label="Job Title" variant="outlined" value={values.row.title} />
+                            <TextField id="outlined-basic" label="Job Description" variant="outlined" value={values.row.description} />
+                            {/* <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Job Type</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    // value=
+                                    label="Job Type"
+                                    onChange={handleChange}
+                                >
+
+                                    <MenuItem value={10}>Ten</MenuItem>
+                                    <MenuItem value={20}>Twenty</MenuItem>
+                                    <MenuItem value={30}>Thirty</MenuItem>
+                                </Select>
+                            </FormControl> */}
+                            <Button onClick={(e) => editJobById(e, values.row)} variant="contained">Save</Button>
+                        </Box>
+                    </Modal>
                 </Box>
             )
         }
@@ -125,7 +195,11 @@ const DashJobs = () => {
                     />
                 </Box>
             </Paper>
-
+            {data.map(job => {
+                return (
+                    <EditJob job={job} />
+                )
+            })}
         </Box>
     )
 }
