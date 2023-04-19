@@ -5,7 +5,8 @@ import {
     JOB_LOAD_SINGLE_FAIL,
     JOB_LOAD_SINGLE_REQUEST,
     JOB_LOAD_SINGLE_SUCCESS,
-    JOB_LOAD_SUCCESS
+    JOB_LOAD_SUCCESS,
+    
 } from "../constants/jobconstant"
 
 
@@ -34,11 +35,21 @@ export const jobLoadSingleAction = (id) => async (dispatch) => {
             type: JOB_LOAD_SINGLE_SUCCESS,
             payload: data
         });
-        console.log(data.job)
     } catch (error) {
         dispatch({
             type: JOB_LOAD_SINGLE_FAIL,
             payload: error.response.data.error
         });
+    }
+}
+export const deleteJobByid = (id) => async (dispatch) => {
+    
+    try{
+        const {data}=await axios.delete(`/api/job/delete/${id}`);
+        dispatch(jobLoadAction())
+        
+    }catch(error){
+        console.log(error)
+        
     }
 }

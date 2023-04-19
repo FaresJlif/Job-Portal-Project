@@ -6,7 +6,7 @@ import {
     JOB_LOAD_SINGLE_REQUEST,
     JOB_LOAD_SINGLE_RESET,
     JOB_LOAD_SINGLE_SUCCESS,
-    JOB_LOAD_SUCCESS
+    JOB_LOAD_SUCCESS,
 } from "../constants/jobconstant"
 
 
@@ -35,6 +35,7 @@ export const loadJobReducer = (state = { jobs: [] }, action) => {
             return state;
     }
 }
+
 
 // single job reducer
 export const loadJobSingleReducer = (state = { job: {} }, action) => {
