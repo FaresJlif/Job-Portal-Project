@@ -163,10 +163,12 @@ const DashJobs = () => {
             <Typography variant="h4" sx={{ color: "white", pb: 3 }}>
                 Jobs list
             </Typography>
+            
             <Box sx={{ pb: 2, display: "flex", justifyContent: "right" }}>
-                <Button variant='contained' color="success" startIcon={<AddIcon />}> <Link style={{ color: "white", textDecoration: "none" }} to="/admin/job/create">Create Job</Link></Button>
+                <Button variant='contained' color="success" startIcon={<AddIcon />}> <Link style={{ color: "white", textDecoration: "none" }} >Create Job</Link></Button>
+                
             </Box>
-            <Paper sx={{ bgcolor: "secondary.midNightBlue" }} >
+            {/* <Paper sx={{ bgcolor: "secondary.midNightBlue" }} >
 
                 <Box sx={{ height: 400, width: '100%' }}>
                     <DataGrid
@@ -194,7 +196,7 @@ const DashJobs = () => {
                         checkboxSelection
                     />
                 </Box>
-            </Paper>
+            </Paper> */}
             {data.map(job => {
                 return (
                     <EditJob job={job} />

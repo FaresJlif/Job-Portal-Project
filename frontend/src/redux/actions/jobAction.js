@@ -42,6 +42,7 @@ export const jobLoadSingleAction = (id) => async (dispatch) => {
         });
     }
 }
+//deletejob
 export const deleteJobByid = (id) => async (dispatch) => {
     
     try{
@@ -51,5 +52,23 @@ export const deleteJobByid = (id) => async (dispatch) => {
     }catch(error){
         console.log(error)
         
+    }
+}
+// update job
+export const editJob = (id,job) => async (dispatch) => {
+    try {
+        await axios.put(`/api/job/update/${id}`, job)
+        dispatch(jobLoadAction())
+    } catch (error) {
+        console.log(error);
+    }
+}
+// create job
+export const createJob= (job) => async(dispatch) => {
+    try{
+        await axios.put(`/api/job/create`,job)
+        dispatch(jobLoadAction())
+    }catch(error){
+console.log(error);
     }
 }
