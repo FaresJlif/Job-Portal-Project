@@ -10,8 +10,9 @@ exports.createJob = async (req, res, next) => {
             description: req.body.description,
             salary: req.body.salary,
             location: req.body.location,
-            jobType: req.body.jobType,
-            user: req.user.id
+            available: req.body.available
+            // jobType: req.body.jobType,
+            // user: req.user.id
         });
         res.status(201).json({
             success: true,
@@ -40,7 +41,8 @@ exports.singleJob = async (req, res, next) => {
 //update job by id.
 exports.updateJob = async (req, res, next) => {
     try {
-        const job = await Job.findByIdAndUpdate(req.params.job_id, req.body, { new: true }).populate('jobType', 'jobTypeName').populate('user', 'firstName lastName');
+        // const job = await Job.findByIdAndUpdate(req.params.job_id, req.body, { new: true }).populate('jobType', 'jobTypeName').populate('user', 'firstName lastName');
+        const job = await Job.findByIdAndUpdate(req.params.job_id, req.body, { new: true }).populate('user', 'firstName lastName');
         res.status(200).json({
             success: true,
             job
@@ -76,14 +78,14 @@ exports.showJobs = async (req, res, next) => {
 
 
     // filter jobs by category ids
-    let ids = [];
-    const jobTypeCategory = await JobType.find({}, { _id: 1 });
-    jobTypeCategory.forEach(cat => {
-        ids.push(cat._id);
-    })
+    // let ids = [];
+    // const jobTypeCategory = await JobType.find({}, { _id: 1 });
+    // jobTypeCategory.forEach(cat => {
+    //     ids.push(cat._id);
+    // })
 
-    let cat = req.query.cat;
-    let categ = cat !== '' ? cat : ids;
+    // let cat = req.query.cat;
+    // let categ = cat !== '' ? cat : ids;
 
 
     //jobs by location
@@ -101,10 +103,12 @@ exports.showJobs = async (req, res, next) => {
     const pageSize = 5;
     const page = Number(req.query.pageNumber) || 1;
     //const count = await Job.find({}).estimatedDocumentCount();
-    const count = await Job.find({ ...keyword, jobType: categ, location: locationFilter }).countDocuments();
+    // const count = await Job.find({ ...keyword, jobType: categ, location: locationFilter }).countDocuments();
+    const count = await Job.find({ ...keyword, location: locationFilter }).countDocuments();
 
     try {
-        const jobs = await Job.find({ ...keyword, jobType: categ, location: locationFilter }).sort({ createdAt: -1 }).populate('jobType', 'jobTypeName').populate('user', 'firstName').skip(pageSize * (page - 1)).limit(pageSize)
+        // const jobs = await Job.find({ ...keyword, jobType: categ, location: locationFilter }).sort({ createdAt: -1 }).populate('jobType', 'jobTypeName').populate('user', 'firstName').skip(pageSize * (page - 1)).limit(pageSize)
+        const jobs = await Job.find({ ...keyword, location: locationFilter }).sort({ createdAt: -1 }).populate('user', 'firstName').skip(pageSize * (page - 1)).limit(pageSize)
         res.status(200).json({
             success: true,
             jobs,

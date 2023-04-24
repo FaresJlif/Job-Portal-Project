@@ -30,7 +30,7 @@ const validationSchema = yup.object({
 
 const SignUp = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  
 
   const formik = useFormik({
     initialValues: {

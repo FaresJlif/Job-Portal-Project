@@ -18,7 +18,7 @@ const validationSchema = yup.object({
         .required('Email is required'),
     password: yup
         .string('Enter your password')
-        .min(6, 'Password should be of minimum 6 characters length')
+        .min(8, 'Password should be of minimum 8 characters length')
         .required('Password is required'),
 });
 
@@ -37,10 +37,6 @@ const LogIn = () => {
                 navigate('/user/dashboard');
             }
         }
-
-        // if (isAuthenticated) {
-        //     navigate('/user/dashboard');
-        // }
     }, [isAuthenticated])
 
     const formik = useFormik({
@@ -60,7 +56,7 @@ const LogIn = () => {
     return (
         <>
             <Navbar />
-            <Box sx={{ height: '81vh', display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Box sx={{ height: '81vh', display: "flex", alignItems: "center", justifyContent: "center", bgcolor: "primary.white" }}>
 
 
                 <Box onSubmit={formik.handleSubmit} component="form" className='form_style border-style' >
@@ -68,7 +64,14 @@ const LogIn = () => {
                         <Avatar sx={{ m: 1, bgcolor: "primary.main", mb: 3 }}>
                             <LockClockOutlined />
                         </Avatar>
-                        <TextField sx={{ mb: 3 }}
+                        <TextField
+                            sx={{
+                                mb: 3,
+                                "& .MuiInputBase-root": {
+                                    color: 'text.secondary',
+                                },
+                                fieldset: { borderColor: "rgb(231, 235, 240)" }
+                            }}
                             fullWidth
                             id="email"
                             label="E-mail"
@@ -76,6 +79,7 @@ const LogIn = () => {
                             InputLabelProps={{
                                 shrink: true,
                             }}
+
                             placeholder="E-mail"
                             value={formik.values.email}
                             onChange={formik.handleChange}
@@ -83,7 +87,14 @@ const LogIn = () => {
                             error={formik.touched.email && Boolean(formik.errors.email)}
                             helperText={formik.touched.email && formik.errors.email}
                         />
-                        <TextField sx={{ mb: 3 }}
+                        <TextField
+                            sx={{
+                                mb: 3,
+                                "& .MuiInputBase-root": {
+                                    color: 'text.secondary'
+                                },
+                                fieldset: { borderColor: "rgb(231, 235, 240)" }
+                            }}
                             fullWidth
                             id="password"
                             name="password"
@@ -100,7 +111,7 @@ const LogIn = () => {
                             helperText={formik.touched.password && formik.errors.password}
                         />
 
-                        <Button fullWidth variant="contained" type='submit' >Log In</Button>
+                        <Button fullWidth variant="contained" type='submit'  >Log In</Button>
                     </Box>
                 </Box>
             </Box>

@@ -16,7 +16,7 @@ router.put('/job/update/:job_id', isAuthenticated, isAdmin, updateJob);
 // /api/jobs/show
 router.get('/jobs/show', showJobs);
 // /api/job/delete/id
-router.delete('/job/delete/:id', deleteJob);
+router.delete('/job/delete/:id', isAuthenticated, isAdmin, deleteJob);
 
 
 
