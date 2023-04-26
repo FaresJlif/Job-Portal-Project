@@ -12,34 +12,38 @@ import {
   FormLabel,
   FormControlLabel,
   Radio,
-  Paper,
-  fabClasses,
 } from "@mui/material";
 import React, { useState } from "react";
 
 import { useDispatch, useSelector } from 'react-redux';
 import {  jobLoadSingleAction } from "../redux/actions/jobAction";
 import { editJob } from "../redux/actions/jobAction";
-import {  useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 
 
 const EditJob = () => {
   const [job,setJob]= useState({ JobName: "", JobDescription: "",JobLocation:"", jobAvailability: "", JobSalary: "$" });
- 
-
+  const [editedJob, setEditedJob] = React.useState( null);
+const navigate=useNavigate()
   const dispatch = useDispatch();
-
+  const fetchedJob  = useSelector(state =>{return state.singleJob} );
   const{id} = useParams();
   useEffect(() => {
     dispatch(jobLoadSingleAction(id));
    
-}, [id]);
+}, [dispatch,id]);
 
 
-const fetchedJob  = useSelector(state =>{return state.singleJob} );
-let data= fetchedJob.job;
-const [editedJob, setEditedJob] = React.useState( fetchedJob.job);
+useEffect(
+() =>{
+  if(fetchedJob.job!=null && fetchedJob.job._id==id)
+  {let data = fetchedJob.job;
+    setEditedJob(data);
+  }
+}
+  ,[dispatch, fetchedJob.job])
+
  
 const handleChange = (e) => {
   setEditedJob({ ...editedJob, [e.target.name]: e.target.value })
@@ -48,7 +52,8 @@ const handleChange = (e) => {
 
  
 
-  return (
+  if (editedJob)
+  {return (
 
     <>
 <Box>
@@ -88,7 +93,7 @@ const handleChange = (e) => {
                             row
                             aria-labelledby="demo-row-radio-buttons-group-label"
                             name="available"
-                            value={editedJob.available}
+                            value={editedJob.available?editedJob.available:true}
                             onChange={handleChange}
                         >
                             <FormControlLabel onChange={handleChange} value={true} control={<Radio />} label="Yes" />
@@ -102,8 +107,8 @@ const handleChange = (e) => {
           </CardContent>
           <CardActions>
             
-            <Button onClick={() => { dispatch(editJob(editedJob._id, editedJob)); setJob(false) }} variant="contained">Save</Button>
-            <Button onClick={() => {setJob(false);setEditedJob(job) }} variant="contained">Cancel</Button>
+            <Button onClick={() => { dispatch(editJob(editedJob._id, editedJob));navigate("/admin/jobs") }} variant="contained">Save</Button>
+            <Button onClick={() => {setEditedJob(job);navigate("/admin/jobs") }} variant="contained">Cancel</Button>
              {/* <Paper sx={{ bgcolor: "secondary.midNightBlue" }} >
 
                 <Box sx={{ height: 400, length:600, width: '100%' }}>
@@ -144,6 +149,8 @@ const handleChange = (e) => {
       </Box>
     </>
   );
-};
+}else{
+  return null;
+}}
 
 export default EditJob;

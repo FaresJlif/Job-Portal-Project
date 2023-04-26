@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { createJob, jobLoadAction, jobLoadSingleAction } from '../../redux/actions/jobAction';
 import { jobTypeLoadAction } from '../../redux/actions/jobTypeAction';
 import { deleteJobByid } from "../../redux/actions/jobAction";
-import { Box, Button, Card, CardActions, CardContent, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Modal, Paper, Radio, RadioGroup, Select, TextField, Typography } from '@mui/material'
+import { Box, Button,FormControl, FormControlLabel, FormLabel,  Modal, Paper, Radio, RadioGroup,TextField, Typography } from '@mui/material'
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
@@ -20,14 +20,14 @@ const DashJobs = () => {
     }, []);
 
 
-    const { jobs, loading } = useSelector(state => state.loadJobs);
+    const { jobs } = useSelector(state => state.loadJobs);
     let data = [];
     data = (jobs !== undefined && jobs.length > 0) ? jobs : []
 
     const { jobType } = useSelector(state => state.jobTypeAll);
     let jobTypes = [];
     jobTypes = (jobType !== undefined && jobType.length > 0) ? jobType : []
-    // console.log(jobTypes)
+    console.log(jobTypes)
 
 
     //delete job by Id
@@ -35,27 +35,28 @@ const DashJobs = () => {
     //     console.log(id)
     // }
 
-    const jobReducer = useSelector(state => state.singleJob.job);
-    const [jobState, setJobState] = useState({})
-    useEffect(() => {
-        setJobState(jobReducer)
-    }, [])
-    const deleteJob = (id) => { dispatch(deleteJobByid(id)) }
+    
+    
     const style = {
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 400,
-        bgcolor: 'background.paper',
+        bgcolor: '#D3D3D3',
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
+        
+        
     };
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
+    const [openConfirmDelete, setOpenConfirmDelete] = React.useState(false);
+    const handleOpenConfirmDelete = () => setOpenConfirmDelete(true);
+    const handleCloseConfirmDelete = () => setOpenConfirmDelete(false);
+    const[jobToDelete, setJobToDelete]= React.useState(null);
     const columns = [
 
       
@@ -102,9 +103,11 @@ const DashJobs = () => {
             renderCell: (values) => (
 
                 
-                <Box sx={{ display: "flex", justifyContent: "space-between", width: "170px" }}>
+                <Box sx={{ display: "flex", justifyContent: "space-between", width: "170px", }}>
                 <Button variant="contained"><Link style={{ color: "white", textDecoration: "none" }} to={`/admin/edit/job/${values.row._id}` } >Edit</Link></ Button>
-                < Button onClick={(e) => dispatch(deleteJob(values.row._id)) } variant="contained" color="error">Delete</ Button>
+                < Button onClick={(e) => {handleOpenConfirmDelete(); setJobToDelete(values.row._id)} } variant="contained" color="error">Delete</ Button>
+            
+               
             </Box>
             )
         }
@@ -119,6 +122,11 @@ const DashJobs = () => {
     return (
         <Box
          >
+
+       
+     
+
+
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -144,16 +152,18 @@ const DashJobs = () => {
                             <FormControlLabel value={false} control={<Radio />} label="No" />
                         </RadioGroup>
                     </FormControl>
-                    <Button onClick={(e) => { dispatch(createJob(newJob)); handleClose(); setNewJob({title:"", description:"", salary:"", location:"", available:true}) }} variant="contained">Save</Button>
+                    <Box sx={{justifyContent:'space-between'}}>
+                    <Button onClick={(e) => { dispatch(createJob(newJob)); handleClose(); setNewJob({title:"", description:"", salary:"", location:"", available:true}) }} variant="contained" sx={{bgcolor:"#4CAF50"}}>Save</Button>
                     <Button onClick={(e) => { handleClose(); setNewJob({title:"", description:"", salary:"", location:"", available:true}) }} variant="contained">Cancel</Button>
+                    </Box>
                 </Box>
             </Modal>
             <Typography variant="h4" sx={{ color: "white", pb: 3 }}>
                 Jobs list
             </Typography>
 
-            <Box sx={{  pb: 2 ,display: "flex", justifyContent: "right" }}>
-                <Button variant='contained' color="success" startIcon={<AddIcon />} onClick={handleOpen}>Create Job</Button>
+            <Box sx={{  pb: 2 ,display: "flex", justifyContent: "right"}}>
+                <Button variant='contained' color="success" startIcon={<AddIcon />} onClick={handleOpen} >Create Job</Button>
                 
             </Box>
             
@@ -186,9 +196,24 @@ const DashJobs = () => {
     />
 </Paper> }
         
-    
 
-         
+     
+      <Modal 
+                open={openConfirmDelete}
+                onClose={handleCloseConfirmDelete}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}
+                
+                >
+                  Are you sure you want to delete this Job?
+                  
+                    <Button  onClick={(e) => {  dispatch(deleteJobByid(jobToDelete)); handleCloseConfirmDelete()}} variant="contained" sx={{bgcolor:"#D10000"}} >Delete</Button>
+                    
+                    <Button onClick={(e) => handleCloseConfirmDelete()} variant="contained">Cancel</Button>
+                </Box>
+            </Modal>
         </Box>
         
     )
