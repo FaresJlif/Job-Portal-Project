@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
+import { createJob, jobLoadAction, jobLoadSingleAction } from '../../redux/actions/jobAction';
+import { jobTypeLoadAction } from '../../redux/actions/jobTypeAction';
+import { deleteJobByid } from "../../redux/actions/jobAction";
 import { Box, Button, Card, CardActions, CardContent, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Modal, Paper, Radio, RadioGroup, Select, TextField, Typography } from '@mui/material'
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
-import { createJob, jobLoadAction, jobLoadSingleAction } from '../../redux/actions/jobAction';
-import { jobTypeLoadAction } from '../../redux/actions/jobTypeAction';
-import EditJob from '../EditJob';
+
 
 
 
 const DashJobs = () => {
-
-
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -41,12 +40,7 @@ const DashJobs = () => {
     useEffect(() => {
         setJobState(jobReducer)
     }, [])
-    const editJobById = (e, info) => {
-        console.log(info)
-    }
-    const getJobById = (id) => {
-        dispatch(jobLoadSingleAction(id))
-    }
+    const deleteJob = (id) => { dispatch(deleteJobByid(id)) }
     const style = {
         position: 'absolute',
         top: '50%',
@@ -70,11 +64,7 @@ const DashJobs = () => {
             headerName: 'Job name',
             width: 150,
         },
-        {
-            field: 'description',
-            headerName: 'Job description',
-            width: 150,
-        },
+     
         {
             field: 'available',
             headerName: 'available',
@@ -101,7 +91,7 @@ const DashJobs = () => {
             type: Number,
             width: 150,
             renderCell: (values => (
-                "$" + values.row.location
+                "" + values.row.location
             ))
 
         },
@@ -110,16 +100,17 @@ const DashJobs = () => {
             field: "Actions",
             width: 200,
             renderCell: (values) => (
-          
 
-                            <EditJob job={values.row} />
-                        
-          
+                
+                <Box sx={{ display: "flex", justifyContent: "space-between", width: "170px" }}>
+                <Button variant="contained"><Link style={{ color: "white", textDecoration: "none" }} to={`/admin/edit/job/${values.row._id}` } >Edit</Link></ Button>
+                < Button onClick={(e) => dispatch(deleteJob(values.row._id)) } variant="contained" color="error">Delete</ Button>
+            </Box>
             )
         }
     ];
 
-    const [newJob, setNewJob] = useState({title:"", description:"", salary:"", location:"", available:true })
+    const [newJob, setNewJob] = useState({title:"", salary:"", location:"", available:true })
     const handleChange = (e) => {
         setNewJob({...newJob, [e.target.name]: e.target.value})
     }
@@ -145,7 +136,7 @@ const DashJobs = () => {
                         <RadioGroup
                             row
                             aria-labelledby="demo-row-radio-buttons-group-label"
-                            name="job"
+                            name="available"
                             value={newJob.available}
                             onChange={handleChange}
                         >
@@ -169,7 +160,6 @@ const DashJobs = () => {
            
             { <Paper sx={{ bgcolor: "secondary.midNightBlue" }} 
             >
-<Box sx={{ height: 400, width:'100%'}}>
     <DataGrid
         getRowId={(row) => row._id}
         sx={{
@@ -185,8 +175,8 @@ const DashJobs = () => {
             },
             button: {
                 color: '#ffffff'
-            }
-
+            },
+            height:400
         }}
         rows={data}
         columns={columns}
@@ -194,7 +184,6 @@ const DashJobs = () => {
         rowsPerPageOptions={[5]}
         
     />
-</Box>
 </Paper> }
         
     

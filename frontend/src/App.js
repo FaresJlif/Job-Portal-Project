@@ -52,7 +52,7 @@ const App = () => {
                             <Route path='/admin/dashboard' element={<AdminRoute><AdminDashboardHOC /></AdminRoute>} />
                             <Route path='/admin/users' element={<AdminRoute><DashUsersHOC /></AdminRoute>} />
                             <Route path='/admin/jobs' element={<AdminRoute><DashJobsHOC /></AdminRoute>} />
-                            <Route path='/admin/edit/job/:id' element={<AdminRoute><EditJobHOC /></AdminRoute>} />
+                            <Route path='/admin/edit/job/:id'  element={<AdminRoute><EditJobHOC /></AdminRoute>} />
                             <Route path='/user/dashboard' element={<UserRoute>< UserDashboardHOC /></UserRoute>} />
                             <Route path='/user/jobs' element={<UserRoute>< UserJobsHistoryHOC /></UserRoute>} />
                             <Route path='/user/info' element={<UserRoute>< UserInfoDashboardHOC /></UserRoute>} />
