@@ -55,12 +55,13 @@ exports.updateJob = async (req, res, next) => {
 // deletes job by id
 exports.deleteJob = async (req, res, next) => {
     try {
-        const job = await Job.deleteOne(req.params.job_id);
+        const job = await Job.deleteOne({_id:req.params.id});
         res.status(200).json({
             success: true,
             job
         })
     } catch (error) {
+        console.log(error);
         next(error);
     }
 }
