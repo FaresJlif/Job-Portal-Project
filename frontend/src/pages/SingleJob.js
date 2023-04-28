@@ -1,6 +1,6 @@
 import { Card, CardContent, Stack, Typography } from '@mui/material'
 import { Box, Container } from '@mui/system'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Footer from '../component/Footer'
@@ -13,18 +13,18 @@ import { userApplyJobAction } from '../redux/actions/userAction'
 
 const SingleJob = () => {
     const dispatch = useDispatch();
-    const { singleJob, loading } = useSelector(state => state.singleJob)
+    const { job, loading } = useSelector(state => state.singleJob)
     const { id } = useParams();
     useEffect(() => {
         dispatch(jobLoadSingleAction(id));
-    }, [id]);
+    }, [dispatch, id]);
 
     const applyForAJob = () => {
         dispatch(userApplyJobAction({
-            title: singleJob && singleJob.title,
-            description: singleJob && singleJob.description,
-            salary: singleJob && singleJob.salary,
-            location: singleJob && singleJob.location
+            title: job && job.title,
+            description: job && job.description,
+            salary: job && job.salary,
+            location: job && job.location
         }))
     }
 
@@ -49,20 +49,20 @@ const SingleJob = () => {
                                         <Card>
                                             <CardContent>
                                                 <Typography variant="h5" component="h3">
-                                                    {singleJob && singleJob.title}
+                                                    {job && job.title}
                                                 </Typography>
                                                 <Typography variant="body2">
-                                                    <Box component="span" sx={{ fontWeight: 700 }}>Salary</Box>: ${singleJob && singleJob.salary}
+                                                    <Box component="span" sx={{ fontWeight: 700 }}>Salary</Box>: ${job && job.salary}
                                                 </Typography>
                                                 <Typography variant="body2">
-                                                    <Box component="span" sx={{ fontWeight: 700 }}>Category</Box>: {singleJob && singleJob.jobType ? singleJob.jobType.jobTypeName : "No category"}
+                                                    <Box component="span" sx={{ fontWeight: 700 }}>Category</Box>: {job && job.jobType ? job.jobType.jobTypeName : "No category"}
                                                 </Typography>
                                                 <Typography variant="body2">
-                                                    <Box component="span" sx={{ fontWeight: 700 }}>Location</Box>: {singleJob && singleJob.location}
+                                                    <Box component="span" sx={{ fontWeight: 700 }}>Location</Box>: {job && job.location}
                                                 </Typography>
                                                 <Typography variant="body2" sx={{ pt: 2 }}>
                                                     {/* <h3>Job description:</h3> */}
-                                                    {singleJob && singleJob.description}
+                                                    {job && job.description}
                                                 </Typography>
                                             </CardContent>
                                         </Card>

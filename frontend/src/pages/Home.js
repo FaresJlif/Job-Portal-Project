@@ -48,7 +48,7 @@ const Home = () => {
                         spacing={{ xs: 1, sm: 2, md: 4 }}
                     >
                         <Box sx={{ flex: 2, p: 2 }}>
-                            <Card sx={{ minWidth: 150, mb: 3, mt: 3, p: 2 }}>
+                            {/* <Card sx={{ minWidth: 150, mb: 3, mt: 3, p: 2 }}>
                                 <Box sx={{ pb: 2 }}>
                                     <Typography component="h4" sx={{ color: palette.secondary.main, fontWeight: 600 }}>
                                         Filter job by category
@@ -56,7 +56,7 @@ const Home = () => {
                                 </Box>
                                 <SelectComponent handleChangeCategory={handleChangeCategory} cat={cat} />
 
-                            </Card>
+                            </Card> */}
 
                             {/* jobs by location */}
                             <Card sx={{ minWidth: 150, mb: 3, mt: 3, p: 2 }}>

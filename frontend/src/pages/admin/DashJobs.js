@@ -27,7 +27,6 @@ const DashJobs = () => {
     const { jobType } = useSelector(state => state.jobTypeAll);
     let jobTypes = [];
     jobTypes = (jobType !== undefined && jobType.length > 0) ? jobType : []
-    console.log(jobTypes)
 
 
     //delete job by Id
@@ -209,7 +208,7 @@ const DashJobs = () => {
                 >
                   Are you sure you want to delete this Job?
                   
-                    <Button  onClick={(e) => {  dispatch(deleteJobByid(jobToDelete)); handleCloseConfirmDelete()}} variant="contained" sx={{bgcolor:"#D10000"}} >Delete</Button>
+                    <Button  onClick={(e) => { dispatch(deleteJobByid(jobToDelete));handleCloseConfirmDelete()}} variant="contained" sx={{bgcolor:"#D10000"}} >Delete</Button>
                     
                     <Button onClick={(e) => handleCloseConfirmDelete()} variant="contained">Cancel</Button>
                 </Box>
