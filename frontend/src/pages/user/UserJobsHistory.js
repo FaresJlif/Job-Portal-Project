@@ -12,7 +12,7 @@ const UserJobsHistory = () => {
     return (
         <>
             <Box>
-                <Typography variant="h4" sx={{ color: "#fafafa" }}> Jobs History</Typography>
+                <Typography variant="h4" sx={{ color: "#fafafa" }}>Jobs History</Typography>
                 <Box>
                     {
                         user && user.jobsHistory.map((history, i) => (

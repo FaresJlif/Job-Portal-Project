@@ -9,7 +9,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux'
 import { userSignInAction } from '../redux/actions/userAction'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const validationSchema = yup.object({
     email: yup
@@ -18,7 +18,7 @@ const validationSchema = yup.object({
         .required('Email is required'),
     password: yup
         .string('Enter your password')
-        .min(8, 'Password should be of minimum 8 characters length')
+        .min(6, 'Password should be of minimum 6 characters length')
         .required('Password is required'),
 });
 
@@ -112,6 +112,9 @@ const LogIn = () => {
                         />
 
                         <Button fullWidth variant="contained" type='submit'  >Log In</Button>
+                        <Link style={{width: "100%", marginTop: "1rem"}} to="/signup">
+                            <Button fullWidth variant="contained" type='submit'  >Sign Up</Button>
+                        </Link>
                     </Box>
                 </Box>
             </Box>

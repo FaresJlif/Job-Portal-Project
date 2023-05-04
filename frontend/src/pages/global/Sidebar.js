@@ -32,9 +32,10 @@ const SidebarAdm = () => {
     const logOut = () => {
         dispatch(userLogoutAction());
         window.location.reload(true);
-        setTimeout(() => {
-            navigate('/');
-        }, 500)
+        // setTimeout(() => {
+        //     navigate('/');
+        // }, 500)
+        navigate('/');
     }
 
 
@@ -85,6 +86,7 @@ const SidebarAdm = () => {
                             {
                                 userInfo && userInfo.role === 1 ?
                                     <>
+                                        <MenuItem component={<Link to="/" />} icon={<HomeIcon />}> Home </MenuItem>
                                         <MenuItem component={<Link to="/admin/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
                                         <MenuItem component={<Link to="/admin/users" />} icon={<GroupAddIcon />}> Users </MenuItem>
                                         <MenuItem component={<Link to="/admin/jobs" />} icon={<WorkIcon />}> Jobs </MenuItem>
@@ -95,7 +97,7 @@ const SidebarAdm = () => {
                                         <MenuItem component={<Link to="/user/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
                                         <MenuItem component={<Link to="/user/jobs" />} icon={<WorkHistoryIcon />}> Applied Jobs </MenuItem>
                                         <MenuItem component={<Link to="/user/info" />} icon={<Person3Icon />}> Personal Info </MenuItem>
-                                        
+
                                     </>
                             }
 

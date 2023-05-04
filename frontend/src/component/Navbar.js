@@ -139,13 +139,27 @@ const Navbar = () => {
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {/* menu desktop */}
 
-                        <Button
-                            onClick={handleCloseNavMenu}
-                            sx={{ my: 2, color: 'white', display: 'block' }}>
-                            <Link to="/" style={{ color: 'white', textDecoration: "none" }}>
+                        <Link to="/" style={{ color: 'white', textDecoration: "none" }}>
+                            <Button
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: 'white', display: 'block' }}>
                                 Home
-                            </Link>
-                        </Button>
+                            </Button>
+                        </Link>
+                        {
+                            userInfo && userInfo.role === 1 ?
+                                <Link style={{ textDecoration: "none", color: palette.primary.main }} to="/admin/dashboard">
+                                    <Button onClick={handleCloseNavMenu}
+                                        sx={{ my: 2, color: 'white', display: 'block' }}>Admin Dashboard</Button>
+                                </Link>
+                                : userInfo && userInfo.role === 0 ?
+                                    <Link style={{ textDecoration: "none", color: palette.primary.main }} to="/user/dashboard">
+                                        <Button onClick={handleCloseNavMenu}
+                                            sx={{ my: 2, color: 'white', display: 'block' }}>User Dashboard</Button>
+                                    </Link>
+                                    :
+                                    <div></div>
+                        }
 
                     </Box>
 
@@ -172,28 +186,40 @@ const Navbar = () => {
                             onClose={handleCloseUserMenu}
                         >
 
-                            <MenuItem onClick={handleCloseUserMenu}>
-                                <Typography textAlign="center"><Link style={{ textDecoration: "none", color: palette.primary.main }} to="/admin/dashboard">Admin Dashboard</Link></Typography>
-                            </MenuItem>
-                            <MenuItem onClick={handleCloseUserMenu}>
-                                <Typography textAlign="center"><Link style={{ textDecoration: "none", color: palette.primary.main }} to="/user/dashboard">User Dashboard</Link></Typography>
-                            </MenuItem>
+                            {
+                                userInfo && userInfo.role === 1 ?
+                                    <Link style={{ textDecoration: "none", color: palette.primary.main }} to="/admin/dashboard">
+                                        <MenuItem onClick={handleCloseUserMenu}>
+                                            <Typography textAlign="center">Admin Dashboard</Typography>
+                                        </MenuItem>
+                                    </Link>
+                                    : userInfo && userInfo.role === 0 ?
+                                        <Link style={{ textDecoration: "none", color: palette.primary.main }} to="/user/dashboard">
+                                            <MenuItem onClick={handleCloseUserMenu}>
+                                                <Typography textAlign="center">User Dashboard</Typography>
+                                            </MenuItem>
+                                        </Link>
+                                        :
+                                        <div></div>
+                            }
 
                             {
                                 !userInfo ?
-
-                                    <MenuItem onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center"><Link style={{ textDecoration: "none", color: palette.primary.main }} to="/login">Log In</Link></Typography>
-                                    </MenuItem> :
-
+                                    <div>
+                                        <Link style={{ textDecoration: "none", color: palette.primary.main }} to="/login">
+                                            <MenuItem onClick={handleCloseUserMenu}>
+                                                <Typography textAlign="center">Log In</Typography>
+                                            </MenuItem>
+                                        </Link>
+                                        <MenuItem component={Link} to="/signup">
+                                            <Typography style={{ textDecoration: "none", color: palette.primary.main }} textAlign="center">Signup</Typography>
+                                        </MenuItem>
+                                    </div>
+                                    :
                                     <MenuItem onClick={logOutUser}>
                                         <Typography style={{ textDecoration: "none", color: palette.primary.main }} textAlign="center">Log Out</Typography>
                                     </MenuItem>
                             }
-                            <MenuItem component={Link}  to="/signup">
-                                        <Typography style={{ textDecoration: "none", color: palette.primary.main }} textAlign="center">signup</Typography>
-                                    </MenuItem>
-
 
                         </Menu>
                     </Box>

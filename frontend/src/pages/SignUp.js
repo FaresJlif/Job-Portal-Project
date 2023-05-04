@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { userSignUpAction } from "../redux/actions/userAction";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const validationSchema = yup.object({
   firstName: yup
     .string("Enter your First Name")
@@ -30,7 +30,7 @@ const validationSchema = yup.object({
 
 const SignUp = () => {
   const dispatch = useDispatch();
-  
+  const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues: {
@@ -43,8 +43,9 @@ const SignUp = () => {
     onSubmit: (values, actions) => {
       console.log(values);
       dispatch(userSignUpAction(values))
-      .then( ()=>{actions.resetForm(); })
-       
+      navigate("/login")
+        .then(() => { actions.resetForm(); })
+
     },
   });
   return (
@@ -142,9 +143,10 @@ const SignUp = () => {
               helperText={formik.touched.password && formik.errors.password}
             />
 
-            <Button fullWidth variant="contained" type="submit">
-              Sign Up
-            </Button>
+            <Button fullWidth variant="contained" type="submit">Sign Up</Button>
+            <Link style={{ width: "100%", marginTop: "1rem" }} to="/login">
+              <Button fullWidth variant="contained" type='submit'  >Log In</Button>
+            </Link>
           </Box>
         </Box>
       </Box>

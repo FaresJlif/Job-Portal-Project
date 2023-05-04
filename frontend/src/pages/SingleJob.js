@@ -2,7 +2,7 @@ import { Card, CardContent, Stack, Typography } from '@mui/material'
 import { Box, Container } from '@mui/system'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import Footer from '../component/Footer'
 import LoadingBox from '../component/LoadingBox'
 import Navbar from '../component/Navbar'
@@ -12,20 +12,34 @@ import { userApplyJobAction } from '../redux/actions/userAction'
 
 
 const SingleJob = () => {
+    const navigate = useNavigate()
+    const { userInfo } = useSelector(state => state.signIn);
     const dispatch = useDispatch();
     const { job, loading } = useSelector(state => state.singleJob)
     const { id } = useParams();
+
+    // const [jobexist, setJobexist] = useState([])
+
     useEffect(() => {
         dispatch(jobLoadSingleAction(id));
     }, [dispatch, id]);
 
+    // const { user } = useSelector(state => state.userProfile);
+    // console.log(user.jobsHistory)
+    
+    //const jobexists = user.jobsHistory.filter(job => job._id === id)
+    //console.log(jobexists)
+
     const applyForAJob = () => {
-        dispatch(userApplyJobAction({
-            title: job && job.title,
-            description: job && job.description,
-            salary: job && job.salary,
-            location: job && job.location
-        }))
+        
+            dispatch(userApplyJobAction({
+                title: job && job.title,
+                description: job && job.description,
+                salary: job && job.salary,
+                location: job && job.location
+            }))
+            navigate("/user/jobs")
+        
     }
 
     return (
@@ -61,7 +75,7 @@ const SingleJob = () => {
                                                     <Box component="span" sx={{ fontWeight: 700 }}>Location</Box>: {job && job.location}
                                                 </Typography>
                                                 <Typography variant="body2" sx={{ pt: 2 }}>
-                                                    {/* <h3>Job description:</h3> */}
+                                                    <h3>Job description:</h3>
                                                     {job && job.description}
                                                 </Typography>
                                             </CardContent>
@@ -70,7 +84,14 @@ const SingleJob = () => {
                             </Box>
                             <Box sx={{ flex: 1, p: 2 }}>
                                 <Card sx={{ p: 2 }}>
-                                    <Button onClick={applyForAJob} sx={{ fontSize: "13px" }} variant='contained'>Apply for this Job</Button>
+                                    {
+                                        userInfo ?
+                                            <Button onClick={applyForAJob} sx={{ fontSize: "13px" }} variant='contained'>Apply for this Job</Button>
+                                        :
+                                            <Link to="/login">
+                                                <Button sx={{ fontSize: "13px" }} variant='contained'>Apply for this Job</Button>
+                                            </Link>
+                                    }
                                 </Card>
                             </Box>
 
